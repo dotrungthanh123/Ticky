@@ -1,0 +1,158 @@
+﻿@model IEnumerable<Ticky.Models.Event>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = Model.Count();
+}
+
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="header__logo">
+                    <a asp-action="Index" asp-controller="Home"><img style="height: 50%; width: 50%;" src="~/img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                        <li><a asp-action="Index" asp-controller="Home">Home</a></li>
+                        <li class="active"><a asp-area="" asp-controller="Events" asp-action="Index">Shop</a></li>
+                        @if (@User.IsInRole("3"))
+                        {
+                            <li><a asp-area="" asp-controller="Events" asp-action="Manage">Manage</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-area="" asp-controller="Order" asp-action="Index">Cart</a></li>
+                        }
+
+                        <li><a href="./#blog-section">Blog</a></li>
+                        <li><a href="./#footer">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__cart">
+                    <ul>
+                        @if (@User.IsInRole("2"))
+                        {
+                            <li><a asp-area="" asp-controller="Order" asp-action="Index"><i class="fa fa-shopping-bag"></i></a></li>
+                        }
+                        else if (User.IsInRole("3"))
+                        {
+                            <li><a asp-area="" asp-controller="Events" asp-action="Manage"><i class="fa fa-file"></i></a></li>
+                        }
+                        <div class="header__top__right__auth">
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <span>Hi @User.Identity.Name</span>
+                                <a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="fa fa-user"></i> Logout</a>
+                            }
+                            else
+                            {
+                                <a asp-area="" asp-controller="Accounts" asp-action="Login"><i class="fa fa-user"></i> Login</a>
+                            }
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="humberger__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+<!-- Header Section End -->
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?cs=srgb&dl=pexels-wolfgang-2747449.jpg&fm=jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Ticky Box</h2>
+                    <div class="breadcrumb__option">
+                        <a href=".">Home</a>
+                        <span>All Events</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Product Section Begin -->
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    <div class="sidebar__item">
+                        <h4>All Categories</h4>
+                        <ul>
+                            @foreach (var cat in ViewBag.Categories)
+                            {
+                                <li>
+                                    <a asp-controller="Categories" asp-action="Index" asp-route-categoryID="@cat.CategoryId">
+                                        <a asp-action="Index" asp-route-catid="@cat.CategoryId">@cat.Name</a>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">
+                <div class="product__discount">
+                    <div class="section-title product__discount__title">
+                        <h2>All events</h2>
+                    </div>
+                </div>
+                <div class="filter__item">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-5">
+                            <div class="filter__sort">
+                                <span>Sort By</span>
+                                <select>
+                                    <option value="0">Name</option>
+                                    <option value="0">Show Date</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="filter__found">
+                                <h6><span>@count</span> Products found</h6>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-3">
+                            <div class="filter__option">
+                                <span class="icon_grid-2x2"></span>
+                                <span class="icon_ul"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach (var e in Model)
+                    {
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                <div class="product__item__pic set-bg" data-setbg="@e.Url">
+                                    <ul class="product__item__pic__hover">
+                                        <li><a asp-action="Details" asp-controller="Events" asp-route-id="@e.EventId"><i class="fa fa-book"></i></a></li>
+                                    </ul>
+                                </div>
+                                <div class="product__item__text">
+                                    <h6><a asp-action="Details" asp-controller="Events" asp-route-id="@e.EventId">@e.Name</a></h6>
+                                    <h5>$ @e.Price</h5>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Section End -->

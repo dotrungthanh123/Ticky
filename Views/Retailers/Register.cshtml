@@ -1,0 +1,36 @@
+﻿@model Ticky.Models.Retailer
+
+@{
+    ViewData["Title"] = "Retailer Register";
+    Layout = "~/Views/Shared/Login_Layout.cshtml";
+}
+
+<div>@ViewBag.message</div>
+<div class="logo">
+    <a href="."><img src="~/img/logo.png" alt=""></a>
+</div>
+<div class="text-center mt-4 name">
+    Register for Retailer
+</div>
+
+<form class="p-3 mt-3" asp-action="Register">
+    <div class="form-field d-flex align-items-center">
+        <input type="text" name="username" id="username" placeholder="Username">
+    </div>
+    <div class="form-field d-flex align-items-center">
+        <input type="password" name="password" id="pwd" placeholder="Password">
+    </div>
+    <div class="form-field d-flex align-items-center">
+        <input type="text" name="Name" id="Name" placeholder="Name">
+    </div>
+    <div class="form-field d-flex align-items-center">
+        <input type="email" name="Email" id="mail" placeholder="Email address">
+    </div>
+    <div class="form-field d-flex align-items-center">
+        <input type="tel" name="Phone" id="phone" placeholder="Phone number">
+    </div>
+    <button class="btn mt-3" type="submit">Register</button>
+</form>
+<div class="text-center fs-6">
+    I have an account<a asp-area="" asp-controller="Accounts" asp-action="Login">  Login</a>
+</div>

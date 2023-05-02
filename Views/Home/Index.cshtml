@@ -1,0 +1,198 @@
+﻿
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="header__logo">
+                    <a href="."><img style="height: 50%; width: 50%;" src="~/img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                        <li class="active"><a href=".">Home</a></li>
+                        <li><a asp-area="" asp-controller="Events" asp-action="Index">Shop</a></li>
+                        @if (@User.IsInRole("3"))
+                        {
+                            <li><a asp-area="" asp-controller="Events" asp-action="Manage">Manage</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-area="" asp-controller="Order" asp-action="Index">Cart</a></li>
+                        }
+
+                        <li><a href="./#blog-section">Blog</a></li>
+                        <li><a href="./#footer">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__cart">
+                    <ul>
+                        @if (@User.IsInRole("2"))
+                        {
+                            <li><a asp-area="" asp-controller="Order" asp-action="Index"><i class="fa fa-shopping-bag"></i></a></li>
+                        }
+                        else if (User.IsInRole("3"))
+                        {
+                            <li><a asp-area="" asp-controller="Events" asp-action="Manage"><i class="fa fa-file"></i></a></li>
+                        }
+                    </ul>
+                    <div class="header__top__right__auth">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <span>Hi @User.Identity.Name</span>
+                                <a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="fa fa-user"></i> Logout</a> 
+                        } else
+                        {
+                            <a asp-area="" asp-controller="Accounts" asp-action="Login"><i class="fa fa-user"></i> Login</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="humberger__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+<!-- Header Section End -->
+<!-- Hero Section Begin -->
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="hero__categories">
+                    <div class="hero__categories__all">
+                        <i class="fa fa-bars"></i>
+                        <span>All Categories</span>
+                    </div>
+                    <ul>
+                        @foreach (var cat in ViewBag.Categories) {
+                            <li><a asp-controller="Categories" asp-action="Index" asp-route-categoryID="@cat.CategoryId">
+                                <a asp-acion="Index" asp-controller="Categories" asp-route-catid="@cat.CategoryId">@cat.Name</a> 
+                            </a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="hero__search">
+                    <div class="hero__search__form">
+                        <form asp-action="Index" asp-controller="Events">
+                            <input type="text" placeholder="What do you need?" name="SearchString">
+                            <button type="submit" class="site-btn">SEARCH</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="hero__item set-bg" data-setbg="https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?cs=srgb&dl=pexels-wolfgang-2747449.jpg&fm=jpg">
+                    <div class="hero__text">
+                        <span>WELCOME TO</span>
+                        <h2>Ticky Box </h2>
+                        <p>Where you can find every events you want</p>
+                        <a asp-action="Index" asp-controller="Events" class="primary-btn">Buy NOW</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
+<!-- Featured Section Begin -->
+<section class="featured spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h2>Hot Events</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row featured__filter">
+            @foreach (var e in Model)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="@e.Url">
+                            <ul class="featured__item__pic__hover">
+                                <li><a asp-action="Details" asp-controller="Events" asp-route-id="@e.EventId"><i class="fa fa-book"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="#">@e.Name</a></h6>
+                            <h5>@e.Price</h5>
+                        </div>
+                    </div>
+                </div>
+            }            
+        </div>
+    </div>
+</section>
+<!-- Featured Section End -->
+<!-- Blog Section Begin -->
+<section class="from-blog spad" id="blog-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title from-blog__title">
+                    <h2>Blog</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="blog__item">
+                    <div class="blog__item__pic">
+                        <img src="https://th.bing.com/th/id/OIP.KsDjpRuIKF7NnGS80iIQ2wHaEc?pid=ImgDet&rs=1" style="height: 250px; width: 550px" alt="">
+                    </div>
+                    <div class="blog__item__text">
+                        <ul>
+                            <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                            <li><i class="fa fa-comment-o"></i> 5</li>
+                        </ul>
+                        <h5>Ticky Box has become the exclusive ticket distributor for the hottest event of the year.</h5>
+                        <p>Exciting news! Ticky Box has just announced that they are the exclusive ticket distributor for the hottest event of the year. This is fantastic news for event-goers as Ticky Box is known for being a reliable and trustworthy vendor. With this exclusive partnership, customers can only purchase tickets through Ticky Box, ensuring they will have access to a large number of tickets. This announcement is a testament to Ticky Box's commitment to providing exceptional service to their customers. If you're planning on attending this year's hottest event, be sure to purchase your tickets from Ticky Box before they sell out!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="blog__item">
+                    <div class="blog__item__pic">
+                        <img src="https://i.ytimg.com/vi/sXXTS6AKnnk/maxresdefault.jpg" style="height: 250px; width: 550px" alt="">
+                    </div>
+                    <div class="blog__item__text">
+                        <ul>
+                            <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                            <li><i class="fa fa-comment-o"></i> 5</li>
+                        </ul>
+                        <h5>Ticky Box is the best ticket distributor for all event</h5>
+                        <p>Are you looking for a reliable ticket distributor for your next big event? Look no further than Ticky Box! With a reputation for excellent service and customer satisfaction, Ticky Box is the go-to destination for event tickets. Whether it's a concert, festival, or sporting event, Ticky Box has you covered. With their easy-to-use website and large inventory of tickets, customers can purchase with confidence knowing they are getting the best deals available. So why wait? Trust Ticky Box for all your ticketing needs and make your next event experience unforgettable!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="blog__item">
+                    <div class="blog__item__pic">
+                        <img src="https://laurenlindley.com/wp-content/uploads/2015/12/Snowglobe_2015_LLindley_Day_2-9-500x383@2x.jpg" style="height: 250px; width: 550px" alt="">
+                    </div>
+                    <div class="blog__item__text">
+                        <ul>
+                            <li><i class="fa fa-calendar-o"></i> May 4,2019</li>
+                            <li><i class="fa fa-comment-o"></i> 5</li>
+                        </ul>
+                        <h5>Ticky Box supports for their all retailers</h5>
+                        <p>At Ticky Box, we understand the importance of building strong relationships with our retailers. That's why we provide comprehensive support to all of our retailers, big or small. From marketing materials to training and technical support, we are committed to helping our retailers succeed. We believe that our retailers' success is our success, and we go the extra mile to ensure that they have everything they need to thrive in their businesses. We are always looking for ways to improve our retailer support, and we are proud to say that our retailers are some of the happiest and most successful in the industry. Join the Ticky Box family today and experience the difference our retailer support can make!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog Section End -->

@@ -1,0 +1,142 @@
+﻿@model IEnumerable<Ticky.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    float total = 0;
+}
+
+<!-- Header Section Begin -->
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="header__logo">
+                    <a href="."><img style="height: 50%; width: 50%;" src="~/img/logo.png" alt=""></a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <nav class="header__menu">
+                    <ul>
+                        <li><a href=".">Home</a></li>
+                        <li><a asp-area="" asp-controller="Events" asp-action="Index">Shop</a></li>
+                        <li class="active"><a asp-area="" asp-controller="Cart" asp-action="Index">Cart</a></li>
+                        <li><a href="./#blog-section">Blog</a></li>
+                        <li><a href="./#footer">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3">
+                <div class="header__cart">
+                    <ul>
+                        @if (@User.IsInRole("2"))
+                        {
+                            <li><a asp-area="" asp-controller="Order" asp-action="Index"><i class="fa fa-shopping-bag"></i></a></li>
+                        }
+                        else if (User.IsInRole("3"))
+                        {
+                            <li><a asp-area="" asp-controller="Events" asp-action="Manage"><i class="fa fa-file"></i></a></li>
+                        }
+                    </ul>
+                    <div class="header__top__right__auth">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <span>Hi @User.Identity.Name</span>
+                            <a asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="fa fa-user"></i> Logout</a>
+                        }
+                        else
+                        {
+                            <a asp-area="" asp-controller="Accounts" asp-action="Login"><i class="fa fa-user"></i> Login</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="humberger__open">
+            <i class="fa fa-bars"></i>
+        </div>
+    </div>
+</header>
+<!-- Header Section End -->
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg="https://happygreenacres.ca/wp-content/uploads/2017/07/events-page-background.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Shopping Cart</h2>
+                    <div class="breadcrumb__option">
+                        <a href=".">Home</a>
+                        <span>Shopping Cart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="shoping__product">Products</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var od in Model)
+                            {
+                                total = total + od.Event.Price * od.Quantity; /*= total + od.Event.Price * od.Quantity*/
+                                <tr>
+                                    <td class="shoping__cart__item">
+                                        <img style ="height: 250px; width: 450px" src="@od.Event.Url" alt="">
+                                        <h5></h5>
+                                    </td>
+                                    <td class="shoping__cart__price">
+                                        $@od.Event.Price
+                                    </td>
+                                    <td class="shoping__cart__quantity">
+                                        <div class="quantity">@od.Quantity</div>
+                                    </td>
+                                    <td class="shoping__cart__total">
+                                        $@(od.Event.Price * od.Quantity)
+                                    </td>
+                                    <td class="shoping__cart__item__close">
+                                        <a asp-route-EventId="@od.Event.EventId" asp-action="Edit">Edit</a>
+
+
+                                        <form asp-action="Delete" asp-controller="Order">
+                                            <input type="hidden" value="@od.Event.EventId" name="EventId"/>
+                                            <button type="submit" class="icon_close"></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__checkout">
+                    <h5>Cart Total</h5>
+                    <ul>
+                        <li>Total <span>$@total</span></li>
+                    </ul>
+                    <a asp-action="Checkout" class="primary-btn">PROCEED TO CHECKOUT</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shoping Cart Section End -->

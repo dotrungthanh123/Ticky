@@ -1,0 +1,25 @@
+﻿@model Ticky.Models.LoginModel
+
+@{
+    ViewData["Title"] = "";
+    Layout = "~/Views/Shared/Login_Layout.cshtml";
+}
+
+<div class="logo">
+    <a href="."><img src="~/img/logo.png" alt=""></a>
+</div>
+<div class="text-center mt-4 name">
+    Login
+</div>
+<form class="p-3 mt-3" asp-route="Login">
+    <div class="form-field d-flex align-items-center">
+        <input type="text" name="username" id="userName" placeholder="Username" asp-for="Username" autofocus>
+    </div>
+    <div class="form-field d-flex align-items-center">
+        <input type="password" name="password" id="pwd" placeholder="Password" asp-for="Password" autocomplete="off">
+    </div>
+    <button class="btn mt-3" asp-action="Login" asp-controller="Accounts">Login</button>
+    <div class="text-center fs-6">
+        <a asp-area="" asp-controller="Customers" asp-action="Register">Register for customer</a> or <a asp-area="" asp-controller="Retailers" asp-action="Register">retailer</a>
+    </div>
+</form>

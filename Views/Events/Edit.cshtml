@@ -1,0 +1,69 @@
+﻿@model Ticky.Models.Event
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action ="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId" autoselect=""></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <input asp-for="RetailerId" class="form-control" type="hidden" value="@Model.RetailerId" />
+            <input asp-for="EventId" class="form-control" type="hidden" value="@Model.EventId" />
+            <div class="form-group">
+                <label asp-for="Seat" class="control-label"></label>
+                <input asp-for="Seat" class="form-control" />
+                <span asp-validation-for="Seat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Url" class="control-label"></label>
+                <input asp-for="Url" class="form-control" />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+            <div class="modal-footer">
+                <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                <input type="submit" class="btn btn-info" value="Save">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Manage" asp-controller="Events">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
